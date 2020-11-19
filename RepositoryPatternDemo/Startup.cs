@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using RepositoryPatternDemo.Domain.Data.EFCore;
-using RepositoryPatternDemo.Domain.Models.EFCore;
+using RepositoryPatternDemo.Domain;
+using RepositoryPatternDemo.Domain.Data;
+using RepositoryPatternDemo.Domain.Models;
 
 namespace RepositoryPatternDemo
 {
@@ -32,9 +33,8 @@ namespace RepositoryPatternDemo
             services.AddDbContext<MyMDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MyMDBContext")));
 
-            services.AddScoped<EfCoreMovieRepository>();
-
-            services.AddScoped<EfCoreStarRepository>();
+            services.AddScoped<IRepository<Movie>, GenericRepository<Movie>>();
+            services.AddScoped<IRepository<Star>, GenericRepository<Star>>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
